@@ -1,41 +1,29 @@
 # Instruments
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/instruments`. To experiment with that code, run `bin/console` for an interactive prompt.
+A small Ruby C extension that allows you to send signals to Instruments.app to indicate interesting points or regions.
 
-TODO: Delete this and the text above, and describe your gem
+## Example
 
-## Installation
-
-Add this line to your application's Gemfile:
+Consider the following process:
 
 ```ruby
-gem 'instruments'
+require "instruments"
+
+p Process.pid # => 14895
+
+# A single event
+Instruments.signpost(42, 1, 2, 3, Instruments::COLORS[:light_green])
+
+# A region
+Instruments.signpost(42, 1, 2, 3, Instruments::COLORS[:light_red]) do
+  sleep 3
+end
 ```
 
-And then execute:
+When attaching Instruments.app using the ‘Points of Interest’ instrument you’d get the following:
 
-    $ bundle
+![](images/example.png)
 
-Or install it yourself as:
+Note that the color coding only works when the instrument is configured to do so (File -> Recording Options…):
 
-    $ gem install instruments
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/instruments.
-
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
+![](images/recording-options.png)

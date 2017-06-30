@@ -43,13 +43,7 @@ static VALUE
 signpost(VALUE self, VALUE code, VALUE arg1, VALUE arg2, VALUE arg3, VALUE arg4)
 {
   if (rb_block_given_p()) {
-    struct signpost_args args;
-    args.self = self;
-    args.code = code;
-    args.arg1 = arg1;
-    args.arg2 = arg2;
-    args.arg3 = arg3;
-    args.arg4 = arg4;
+    struct signpost_args args = { self, code, arg1, arg2, arg3, arg4 };
     return rb_ensure(block_invoke, (VALUE)&args, block_ensure, (VALUE)&args);
   } else {
     return INT2NUM(kdebug_signpost(NUM2UINT(code), NUM2ULL(arg1), NUM2ULL(arg2), NUM2ULL(arg3), NUM2ULL(arg4)));
